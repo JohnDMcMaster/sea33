@@ -126,6 +126,9 @@ class C8033:
             self.e.flush()
             self.flushInput()
 
+    def __del__(self):
+        self.ser.close()
+
     def wait_rx(self, tidle=0.1):
         ret = ""
         tlast = time.time()
@@ -194,6 +197,66 @@ def tostr(buff):
         assert 0, type(buff)
 
 
+"""
+> HLP
+
+Control commands
+HIV_0-1300    CUR_0-300
+PHV_0-1300    PCU_0-300
+AGN_N_N       XON    XOF
+CXT    RST    CFL    CFS
+
+Status commands
+STX    SHV    SCU    SPV
+SPC    SOV    SIN    SAG
+STS    SRB    SRL    DAG
+SER
+
+Micro Foucus X-Ray Controller
+Version 1.03p 00/03/25 sat.
+KOU PLANNING  CO.LTD.
+
+> STX
+X-RAY OFF
+
+> SHV
+HIV 0.0kV
+
+> SCU
+CUR 0uA
+
+> SPV
+PHV 90.0kV
+
+> SPC
+PCU 2uA
+
+> SOV
+NORMAL
+
+> SIN
+INTER LOCK ON
+
+> SAG
+AGING OFF
+
+> STS
+NOT READY
+
+> SRB
+READY
+
+> SRL
+OFF
+
+> DAG
+AGING 3 1 YET
+
+> SER
+ERR 0
+
+"""
+
 # ser = serial.Serial(port='/dev/ttyUSB0', baudrate=9600, timeout=0, writeTimeout=0)
 c33 = C8033()
 c33.wait_rx()
@@ -206,4 +269,3 @@ while True:
     rx = c33.wait_rx()
     rx = rx.replace("\r", "\n")
     print(rx)
-ser.close()
