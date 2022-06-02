@@ -11,14 +11,7 @@ def main():
     _args = parser.parse_args()
 
     c33 = C8033Raw()
-    print("Type HLP for help")
-    print("Waiting for input...")
-    while True:
-        print("> ", end="")
-        l = input().strip()
-        rx = c33.cmd(l)
-        rx = rx.replace("\r", "\n")
-        print(rx)
+    c33.print_status()
 
 
 if __name__ == "__main__":
